@@ -1,0 +1,4 @@
+flask
+gunicorn
+ezdxf
+Pillow

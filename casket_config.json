@@ -1,0 +1,55 @@
+{
+  "sizes": {
+    "adult":  { "int_L": 78.0, "int_W": 22.0, "int_D": 12.0 },
+    "child":  { "int_L": 48.0, "int_W": 16.0, "int_D": 10.0 },
+    "infant": { "int_L": 30.0, "int_W": 14.0, "int_D":  8.0 }
+  },
+  "material": {
+    "thickness": 0.75
+  },
+  "sheet": {
+    "width":  48.0,
+    "length": 96.0,
+    "kerf":    0.25,
+    "cost":   45.00
+  },
+  "joinery": {
+    "rabbet_depth":         0.375,
+    "dado_depth":           0.375,
+    "dado_from_bottom":     0.75,
+    "finger_width":         1.0,
+    "clearance":            0.008,
+    "min_finger":           0.625,
+    "max_finger":           1.375,
+    "joinery_bit_diameter": 0.5,
+    "cleanup_bit_diameter": 0.125
+  },
+  "engraving": {
+    "depth":       0.125,
+    "tool_diameter": 0.25,
+    "default_design": "cross",
+    "inscription": "Requiescat in Pace"
+  },
+  "features": {
+    "split_lid":          false,
+    "split_lid_fraction": 0.40,
+    "stretcher":          true,
+    "stretcher_min_length": 65.0,
+    "rope_handles":       true,
+    "handle_hole_dia":    0.75,
+    "handle_setback":     12.0,
+    "consumables_cost":   15.00,
+    "roundover_radius":   0.0,
+    "roundover_lid_all":  true,
+    "roundover_sides":    true,
+    "lid_pins":           false,
+    "pin_dia":            0.375,
+    "pin_setback":        1.5
+  },
+  "coffin": {
+    "head_W":              14.0,
+    "foot_W":              12.0,
+    "shoulder_from_head":  16.0,
+    "shoulder_from_foot":  16.0
+  }
+}
