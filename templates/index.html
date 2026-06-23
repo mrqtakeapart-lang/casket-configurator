@@ -3,312 +3,811 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Casket Configurator — BrainOS</title>
+<title>Fiat Casket Co. — Handcrafted Catholic Caskets</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg:#070810; --panel:rgba(22,26,40,.55); --panel-solid:#11141f;
-    --border:rgba(120,140,200,.18); --text:#e8ecf6; --muted:#8a92ac;
-    --c1:#6ee7ff; --c2:#a78bfa; --c3:#f0abfc;
-    --glow:0 0 24px rgba(110,231,255,.35);
-  }
-  *{box-sizing:border-box;margin:0;padding:0;}
-  html,body{height:100%;}
-  body{
-    font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
-    background:var(--bg); color:var(--text); overflow:hidden; position:relative;
-  }
-  body::before,body::after{
-    content:""; position:fixed; border-radius:50%; filter:blur(110px);
-    z-index:0; opacity:.5; pointer-events:none;
-  }
-  body::before{width:620px;height:620px;background:radial-gradient(circle,#3b2d8f,transparent 70%);top:-180px;left:-120px;animation:float1 18s ease-in-out infinite;}
-  body::after{width:560px;height:560px;background:radial-gradient(circle,#0d6e8c,transparent 70%);bottom:-200px;right:-140px;animation:float2 22s ease-in-out infinite;}
-  @keyframes float1{50%{transform:translate(80px,60px) scale(1.1);}}
-  @keyframes float2{50%{transform:translate(-70px,-50px) scale(1.08);}}
+/* ── Reset ── */
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',system-ui,sans-serif;background:#FDFAF6;color:#1C1008;}
 
-  .wrap{position:relative;z-index:1;height:100vh;display:flex;flex-direction:column;padding:18px 26px;}
-  header{display:flex;align-items:center;gap:14px;margin-bottom:14px;}
-  .logo{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--c1),var(--c2));
-    display:grid;place-items:center;font-weight:800;color:#0a0a14;box-shadow:var(--glow);}
-  .title h1{font-size:19px;font-weight:700;letter-spacing:.3px;}
-  .title p{font-size:12px;color:var(--muted);margin-top:1px;}
-  .badge{margin-left:auto;font-size:11px;color:var(--c1);border:1px solid var(--border);
-    padding:5px 12px;border-radius:20px;background:rgba(110,231,255,.06);}
+/* ── Tokens ── */
+:root{
+  --cream:#F7F2E9;
+  --paper:#FDFAF6;
+  --walnut:#2A1810;
+  --walnut-mid:#3D2415;
+  --walnut-light:#5C3A22;
+  --gold:#B8975A;
+  --gold-light:#D4AE72;
+  --gold-pale:#ECD9B0;
+  --text-dark:#1C1008;
+  --text-mid:#6B5540;
+  --text-light:#9C8270;
+  --border-warm:rgba(184,151,90,.22);
+  --serif:'Playfair Display',Georgia,'Times New Roman',serif;
+}
 
-  .stage{flex:1;display:grid;grid-template-columns:1.3fr .95fr;gap:22px;min-height:0;}
+/* ── Nav ── */
+.sitenav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:18px 48px;
+  display:flex;align-items:center;justify-content:space-between;
+  transition:background .3s,box-shadow .3s;
+}
+.sitenav.scrolled{
+  background:rgba(253,250,246,.97);
+  box-shadow:0 1px 0 var(--border-warm),0 4px 24px rgba(42,24,16,.06);
+  backdrop-filter:blur(12px);
+}
+.nav-brand{
+  display:flex;align-items:center;gap:10px;
+  text-decoration:none;color:var(--walnut);
+  font-family:var(--serif);font-size:18px;font-weight:600;letter-spacing:.3px;
+}
+.nav-brand .nav-cross{font-size:20px;color:var(--gold);}
+.nav-links{display:flex;align-items:center;gap:32px;}
+.nav-links a{
+  text-decoration:none;color:var(--walnut);font-size:14px;font-weight:500;letter-spacing:.3px;
+  transition:color .2s;
+}
+.nav-links a:hover{color:var(--gold);}
+.nav-cta{
+  padding:10px 22px;border-radius:6px;
+  background:var(--walnut);color:#F7F2E9 !important;
+  transition:background .2s !important;
+}
+.nav-cta:hover{background:var(--walnut-mid) !important;}
 
-  .glass{background:var(--panel);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
-    border:1px solid var(--border);border-radius:18px;position:relative;overflow:hidden;}
-  .glass::after{content:"";position:absolute;inset:0;border-radius:18px;padding:1px;
-    background:linear-gradient(135deg,rgba(110,231,255,.35),transparent 40%,transparent 60%,rgba(167,139,250,.3));
-    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
-    -webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;}
+/* ── Hero ── */
+.hero{
+  position:relative;height:100vh;min-height:600px;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+.hero-img-wrap{
+  position:absolute;inset:0;
+  background:linear-gradient(155deg,#2A1810 0%,#4A2E18 45%,#3A2010 100%);
+}
+.hero-img{
+  width:100%;height:100%;object-fit:cover;object-position:center;
+  opacity:.55;
+}
+.hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to bottom,rgba(26,14,8,.35) 0%,rgba(26,14,8,.6) 60%,rgba(26,14,8,.82) 100%);
+}
+.hero-content{
+  position:relative;z-index:2;text-align:center;
+  padding:0 24px;max-width:700px;
+}
+.hero-eyebrow{
+  font-size:12px;font-weight:500;letter-spacing:3px;text-transform:uppercase;
+  color:var(--gold-light);margin-bottom:20px;
+}
+.hero-h1{
+  font-family:var(--serif);font-size:clamp(48px,7vw,80px);font-weight:600;
+  color:#F7F2E9;line-height:1.1;margin-bottom:22px;
+}
+.hero-sub{
+  font-size:18px;font-weight:300;color:rgba(247,242,233,.78);
+  line-height:1.7;margin-bottom:40px;max-width:520px;margin-left:auto;margin-right:auto;
+}
+.hero-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+.btn-primary{
+  padding:16px 36px;border-radius:6px;text-decoration:none;
+  background:var(--gold);color:var(--walnut);font-weight:600;font-size:15px;letter-spacing:.3px;
+  transition:background .2s,transform .15s;
+}
+.btn-primary:hover{background:var(--gold-light);transform:translateY(-1px);}
+.btn-ghost{
+  padding:16px 36px;border-radius:6px;text-decoration:none;
+  border:1px solid rgba(247,242,233,.45);color:#F7F2E9;font-weight:500;font-size:15px;letter-spacing:.3px;
+  transition:border-color .2s,background .2s;
+}
+.btn-ghost:hover{border-color:rgba(247,242,233,.8);background:rgba(247,242,233,.08);}
+.hero-scroll{
+  position:absolute;bottom:36px;left:50%;transform:translateX(-50%);
+  color:rgba(247,242,233,.45);font-size:12px;letter-spacing:2px;text-transform:uppercase;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+}
+.hero-scroll::after{
+  content:'';width:1px;height:36px;background:rgba(247,242,233,.3);
+}
 
-  .preview{display:flex;flex-direction:column;padding:16px;}
-  .preview .topbar{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
-  .preview .label{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);}
-  .panelpills{display:none;flex-wrap:wrap;gap:6px;margin-left:auto;}
-  .panelpills.show{display:flex;}
-  .pill{font-size:11px;padding:5px 10px;border-radius:9px;border:1px solid var(--border);
-    background:rgba(255,255,255,.02);color:var(--muted);cursor:pointer;transition:all .15s;}
-  .pill:hover{color:var(--text);border-color:rgba(110,231,255,.4);}
-  .pill.on{color:#0a0a14;background:linear-gradient(135deg,var(--c1),var(--c2));border-color:transparent;}
-  #canvasHost{flex:1;display:grid;place-items:center;min-height:0;position:relative;}
-  canvas#cv{max-width:100%;max-height:100%;filter:drop-shadow(0 10px 40px rgba(0,0,0,.55));touch-action:none;}
-  .dims{margin-top:8px;font-size:12px;color:var(--muted);text-align:center;letter-spacing:.4px;}
-  .dims b{color:var(--c1);font-weight:600;}
-  .edithint{display:none;font-size:11px;color:var(--muted);text-align:center;margin-top:4px;}
-  .edithint.show{display:block;}
+/* ── Section shared ── */
+.section-eyebrow{
+  font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;
+  color:var(--gold);margin-bottom:14px;
+}
+.section-eyebrow.center{text-align:center;}
+.section-h2{
+  font-family:var(--serif);font-size:clamp(28px,4vw,42px);font-weight:600;
+  color:var(--walnut);line-height:1.2;margin-bottom:28px;
+}
+.section-h2.center{text-align:center;}
+.section-h2.light{color:#F7F2E9;}
 
-  .panel{padding:20px;overflow-y:auto;}
-  .panel h2{font-size:12px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin:0 0 10px;}
-  .group{margin-bottom:18px;}
-  .seg{display:flex;gap:8px;}
-  .seg button{flex:1;padding:11px 6px;border-radius:11px;border:1px solid var(--border);
-    background:rgba(255,255,255,.02);color:var(--muted);cursor:pointer;font-size:13px;font-weight:600;transition:all .18s;}
-  .seg button:hover{color:var(--text);border-color:rgba(110,231,255,.4);}
-  .seg button.on{color:#0a0a14;background:linear-gradient(135deg,var(--c1),var(--c2));border-color:transparent;box-shadow:var(--glow);}
+/* ── Story ── */
+.story{background:var(--cream);padding:100px 48px;}
+.story-inner{
+  max-width:1100px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;
+}
+.story-body{
+  font-size:17px;font-weight:300;color:var(--text-mid);line-height:1.85;
+  margin-bottom:20px;
+}
+.story-fiat{
+  border-left:2px solid var(--gold);padding-left:20px;
+  font-style:italic;color:var(--walnut-light);
+}
+.story-photo{
+  border-radius:4px;overflow:hidden;
+  aspect-ratio:3/4;
+  background:linear-gradient(160deg,var(--walnut-mid),var(--walnut));
+  position:relative;
+}
+.story-photo img{
+  width:100%;height:100%;object-fit:cover;display:block;
+}
+.story-photo.no-photo::after{
+  content:'';position:absolute;inset:0;
+  background:
+    repeating-linear-gradient(90deg,transparent,transparent 18px,rgba(255,255,255,.03) 18px,rgba(255,255,255,.03) 19px),
+    linear-gradient(160deg,#3D2415,#2A1810);
+}
+.story-photo .photo-caption{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:20px 24px;
+  background:linear-gradient(to top,rgba(26,14,8,.85),transparent);
+  color:rgba(247,242,233,.7);font-size:13px;font-style:italic;letter-spacing:.3px;
+}
 
-  .designs{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;}
-  .dchip{aspect-ratio:1;border-radius:12px;border:1px solid var(--border);background:rgba(255,255,255,.02);
-    cursor:pointer;display:grid;place-items:center;transition:all .18s;padding:6px;}
-  .dchip:hover{border-color:rgba(167,139,250,.5);}
-  .dchip.on{border-color:transparent;background:linear-gradient(135deg,rgba(110,231,255,.18),rgba(167,139,250,.18));box-shadow:var(--glow);}
-  .dname{font-size:11px;color:var(--muted);text-align:center;margin-top:7px;min-height:14px;letter-spacing:.3px;}
+/* ── Divider ── */
+.divider{
+  height:1px;background:var(--border-warm);
+  max-width:1100px;margin:0 auto;
+}
 
-  label.fld{display:block;font-size:12px;color:var(--muted);margin-bottom:7px;letter-spacing:.3px;}
-  input[type=text],select{width:100%;padding:11px 13px;border-radius:11px;border:1px solid var(--border);
-    background:rgba(8,10,18,.6);color:var(--text);font-size:14px;outline:none;transition:border .18s,box-shadow .18s;}
-  input[type=text]:focus,select:focus{border-color:var(--c1);box-shadow:0 0 0 3px rgba(110,231,255,.12);}
-  input::placeholder{color:#5a627c;}
-  select option{background:#11141f;}
+/* ── Pricing ── */
+.pricing-section{background:var(--paper);padding:100px 48px;}
+.pricing-inner{max-width:1100px;margin:0 auto;}
+.pricing-intro{
+  font-size:16px;color:var(--text-mid);line-height:1.7;max-width:580px;
+  margin:0 auto 56px;text-align:center;
+}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.price-card{
+  border:1px solid var(--border-warm);border-radius:8px;
+  padding:36px 32px;
+  display:flex;flex-direction:column;
+  background:#fff;
+  position:relative;
+  transition:box-shadow .2s,transform .2s;
+}
+.price-card:hover{box-shadow:0 8px 40px rgba(42,24,16,.1);transform:translateY(-2px);}
+.price-card.featured{
+  border-color:var(--gold);
+  background:linear-gradient(160deg,#FFFBF4,#FDF7EB);
+  box-shadow:0 4px 24px rgba(184,151,90,.18);
+}
+.price-badge{
+  position:absolute;top:-13px;left:50%;transform:translateX(-50%);
+  background:var(--gold);color:var(--walnut);
+  font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  padding:5px 16px;border-radius:20px;white-space:nowrap;
+}
+.price-card h3{
+  font-family:var(--serif);font-size:22px;font-weight:600;color:var(--walnut);
+  margin-bottom:14px;
+}
+.price-card-top{flex:1;}
+.price-desc{
+  font-size:14px;color:var(--text-mid);line-height:1.7;margin-bottom:28px;
+}
+.price-variants{margin-bottom:28px;display:flex;flex-direction:column;gap:10px;}
+.pv{display:flex;justify-content:space-between;align-items:baseline;
+  padding:10px 0;border-bottom:1px solid var(--border-warm);}
+.pv:last-child{border-bottom:none;}
+.pv-label{font-size:13px;color:var(--text-mid);font-weight:500;}
+.pv-price{font-family:var(--serif);font-size:20px;font-weight:600;color:var(--walnut);}
+.card-btn{
+  display:block;text-align:center;text-decoration:none;
+  padding:13px;border-radius:6px;
+  border:1px solid var(--walnut);color:var(--walnut);
+  font-size:14px;font-weight:600;letter-spacing:.3px;
+  transition:background .2s,color .2s;
+}
+.price-card.featured .card-btn{
+  background:var(--walnut);color:#F7F2E9;border-color:var(--walnut);
+}
+.card-btn:hover{background:var(--walnut);color:#F7F2E9;}
+.price-card.featured .card-btn:hover{background:var(--walnut-mid);}
 
-  .advtoggle{width:100%;padding:11px;border-radius:11px;border:1px dashed var(--border);
-    background:transparent;color:var(--muted);cursor:pointer;font-size:12px;font-weight:600;
-    letter-spacing:.5px;text-transform:uppercase;transition:all .18s;margin-bottom:16px;}
-  .advtoggle:hover{color:var(--text);border-color:rgba(110,231,255,.5);}
-  .advtoggle .car{transition:transform .2s;display:inline-block;}
-  .advtoggle.open .car{transform:rotate(90deg);}
-  #advanced{display:none;}
-  #advanced.show{display:block;}
-  .subseg{display:flex;gap:6px;flex-wrap:wrap;}
-  .subseg button{padding:8px 12px;border-radius:9px;border:1px solid var(--border);
-    background:rgba(255,255,255,.02);color:var(--muted);cursor:pointer;font-size:12px;transition:all .15s;}
-  .subseg button.on{color:#0a0a14;background:linear-gradient(135deg,var(--c1),var(--c2));border-color:transparent;}
-  .dimrow{display:flex;gap:8px;}
-  .dimrow .cell{flex:1;}
-  .dimrow input{width:100%;padding:9px 8px;text-align:center;}
-  .dimrow .cell span{font-size:10px;color:var(--muted);display:block;text-align:center;margin-bottom:4px;}
-  .check{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text);cursor:pointer;}
-  .check input{width:16px;height:16px;accent-color:var(--c1);}
-  .smallnote{font-size:11px;color:#caa15a;margin-top:6px;line-height:1.4;}
+.pricing-note{
+  margin-top:44px;padding:20px 28px;
+  border-radius:6px;border-left:3px solid var(--gold);
+  background:var(--cream);
+  font-size:13px;color:var(--text-mid);line-height:1.7;
+}
+.pricing-note strong{color:var(--walnut);}
 
-  .itembar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;}
-  .itembar button{padding:7px 10px;border-radius:9px;border:1px solid var(--border);
-    background:rgba(255,255,255,.03);color:var(--text);cursor:pointer;font-size:12px;transition:all .15s;}
-  .itembar button:hover{border-color:rgba(110,231,255,.5);}
-  .itembar button.danger:hover{border-color:#f0606a;color:#ffb3b8;}
-  .itemlist{list-style:none;max-height:120px;overflow-y:auto;border:1px solid var(--border);border-radius:10px;margin-bottom:10px;}
-  .itemlist li{padding:8px 11px;font-size:12px;color:var(--muted);cursor:pointer;border-bottom:1px solid rgba(120,140,200,.08);display:flex;gap:8px;align-items:center;}
-  .itemlist li:last-child{border-bottom:none;}
-  .itemlist li.sel{background:rgba(110,231,255,.1);color:var(--text);}
-  .itemlist li .tag{font-size:9px;padding:2px 6px;border-radius:5px;background:rgba(167,139,250,.2);color:var(--c2);}
-  .ctrl{margin-bottom:10px;}
-  .ctrl label{font-size:11px;color:var(--muted);display:block;margin-bottom:5px;}
-  .ctrl input[type=range]{width:100%;accent-color:var(--c1);}
-  .ctrl .rowflex{display:flex;align-items:center;gap:8px;}
-  .ctrl .rowflex span{font-size:11px;color:var(--c1);min-width:34px;text-align:right;}
+/* ── Gallery strip ── */
+.gallery-strip{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:3px;
+  max-height:260px;overflow:hidden;
+}
+.gallery-cell{
+  aspect-ratio:1;overflow:hidden;
+  background:linear-gradient(160deg,var(--walnut-mid),var(--walnut));
+  position:relative;
+}
+.gallery-cell img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .6s ease;
+}
+.gallery-cell:hover img{transform:scale(1.05);}
+.gallery-cell.no-img{
+  background:
+    repeating-linear-gradient(45deg,transparent,transparent 12px,rgba(255,255,255,.02) 12px,rgba(255,255,255,.02) 13px),
+    linear-gradient(160deg,#3D2415,#2A1810);
+}
 
-  .export{width:100%;margin-top:6px;padding:15px;border:none;border-radius:13px;cursor:pointer;
-    font-size:15px;font-weight:700;letter-spacing:.4px;color:#0a0a14;
-    background:linear-gradient(135deg,var(--c1),var(--c2) 55%,var(--c3));
-    box-shadow:0 8px 30px rgba(110,231,255,.25);transition:transform .12s,box-shadow .2s;}
-  .export:hover{transform:translateY(-2px);box-shadow:0 12px 38px rgba(167,139,250,.4);}
-  .export:active{transform:translateY(0);}
-  .export:disabled{opacity:.6;cursor:wait;transform:none;}
-  .ghostbtn{width:100%;margin-top:8px;padding:11px;border-radius:11px;border:1px solid var(--border);
-    background:rgba(255,255,255,.02);color:var(--text);cursor:pointer;font-size:13px;transition:all .15s;}
-  .ghostbtn:hover{border-color:rgba(110,231,255,.5);}
-  .hint{font-size:11px;color:var(--muted);text-align:center;margin-top:10px;line-height:1.5;}
-  .toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(120px);
-    background:var(--panel-solid);border:1px solid var(--border);padding:13px 22px;border-radius:12px;
-    font-size:13px;z-index:5;transition:transform .35s cubic-bezier(.2,.9,.3,1.2);box-shadow:0 10px 40px rgba(0,0,0,.5);}
-  .toast.show{transform:translateX(-50%) translateY(0);}
-  .toast.err{border-color:#f0606a;color:#ffb3b8;}
-  .hidden{display:none !important;}
+/* ── Configurator section ── */
+.configurator-section{
+  background:var(--walnut);
+  height:100vh;min-height:600px;
+  overflow:hidden;
+  display:flex;flex-direction:column;
+}
+.config-header{
+  padding:40px 48px 0;flex-shrink:0;
+}
+.config-header .section-eyebrow{margin-bottom:10px;}
+.config-header .section-h2{margin-bottom:8px;}
+.config-intro{
+  font-size:14px;color:rgba(247,242,233,.55);max-width:560px;
+  line-height:1.6;margin-bottom:0;
+}
+.config-intro.center{text-align:center;margin:0 auto;}
+
+/* ── Existing configurator (reskinned vars) ── */
+.wrap{
+  flex:1;min-height:0;
+  position:relative;z-index:1;
+  display:flex;flex-direction:column;
+  padding:16px 26px 20px;
+}
+.config-wrap-header{
+  display:flex;align-items:center;gap:14px;margin-bottom:14px;
+}
+.logo-chip{
+  width:34px;height:34px;border-radius:8px;
+  background:var(--gold);
+  display:grid;place-items:center;
+  font-weight:800;color:var(--walnut);font-size:16px;
+}
+.wrap-title h1{font-size:17px;font-weight:600;color:#F7F2E9;letter-spacing:.2px;}
+.wrap-title p{font-size:12px;color:rgba(247,242,233,.45);margin-top:1px;}
+
+/* Configurator tokens — warm wood instead of neon */
+.stage{flex:1;display:grid;grid-template-columns:1.3fr .95fr;gap:20px;min-height:0;}
+
+.glass{
+  background:rgba(58,32,16,.45);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border:1px solid rgba(184,151,90,.2);
+  border-radius:14px;position:relative;overflow:hidden;
+}
+.glass::after{
+  content:'';position:absolute;inset:0;border-radius:14px;padding:1px;
+  background:linear-gradient(135deg,rgba(212,174,114,.35),transparent 40%,transparent 60%,rgba(184,140,80,.2));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;
+}
+.preview{display:flex;flex-direction:column;padding:14px;}
+.preview .topbar{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.preview .label{font-size:10px;text-transform:uppercase;letter-spacing:1.8px;color:rgba(247,242,233,.4);}
+.panelpills{display:none;flex-wrap:wrap;gap:6px;margin-left:auto;}
+.panelpills.show{display:flex;}
+.pill{
+  font-size:11px;padding:5px 10px;border-radius:8px;
+  border:1px solid rgba(184,151,90,.25);background:rgba(255,255,255,.02);
+  color:rgba(247,242,233,.5);cursor:pointer;transition:all .15s;
+}
+.pill:hover{color:#F7F2E9;border-color:rgba(212,174,114,.5);}
+.pill.on{color:var(--walnut);background:var(--gold);border-color:transparent;}
+#canvasHost{flex:1;display:grid;place-items:center;min-height:0;position:relative;}
+canvas#cv{max-width:100%;max-height:100%;filter:drop-shadow(0 8px 32px rgba(0,0,0,.5));touch-action:none;}
+.dims{margin-top:6px;font-size:12px;color:rgba(247,242,233,.4);text-align:center;letter-spacing:.4px;}
+.dims b{color:var(--gold-light);font-weight:600;}
+.edithint{display:none;font-size:11px;color:rgba(247,242,233,.4);text-align:center;margin-top:4px;}
+.edithint.show{display:block;}
+
+.panel{padding:18px;overflow-y:auto;}
+.panel::-webkit-scrollbar{width:4px;}
+.panel::-webkit-scrollbar-track{background:transparent;}
+.panel::-webkit-scrollbar-thumb{background:rgba(184,151,90,.25);border-radius:4px;}
+.panel h2{
+  font-size:10px;text-transform:uppercase;letter-spacing:2px;
+  color:rgba(247,242,233,.4);margin:0 0 10px;
+}
+.group{margin-bottom:16px;}
+.seg{display:flex;gap:7px;}
+.seg button{
+  flex:1;padding:10px 6px;border-radius:9px;
+  border:1px solid rgba(184,151,90,.22);
+  background:rgba(255,255,255,.02);color:rgba(247,242,233,.55);
+  cursor:pointer;font-size:13px;font-weight:600;transition:all .18s;
+}
+.seg button:hover{color:#F7F2E9;border-color:rgba(212,174,114,.5);}
+.seg button.on{color:var(--walnut);background:var(--gold);border-color:transparent;box-shadow:0 2px 12px rgba(184,151,90,.35);}
+
+.designs{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;}
+.dchip{
+  aspect-ratio:1;border-radius:10px;
+  border:1px solid rgba(184,151,90,.22);background:rgba(255,255,255,.02);
+  cursor:pointer;display:grid;place-items:center;transition:all .18s;padding:5px;
+}
+.dchip:hover{border-color:rgba(212,174,114,.5);}
+.dchip.on{
+  border-color:transparent;
+  background:linear-gradient(135deg,rgba(212,174,114,.2),rgba(184,151,90,.15));
+  box-shadow:0 2px 12px rgba(184,151,90,.25);
+}
+.dname{font-size:11px;color:rgba(247,242,233,.45);text-align:center;margin-top:6px;min-height:14px;letter-spacing:.3px;}
+
+label.fld{display:block;font-size:12px;color:rgba(247,242,233,.45);margin-bottom:6px;letter-spacing:.3px;}
+input[type=text],select{
+  width:100%;padding:10px 12px;border-radius:9px;
+  border:1px solid rgba(184,151,90,.22);
+  background:rgba(26,14,8,.55);color:#F7F2E9;font-size:14px;
+  outline:none;transition:border .18s,box-shadow .18s;
+}
+input[type=text]:focus,select:focus{
+  border-color:var(--gold);box-shadow:0 0 0 3px rgba(184,151,90,.14);
+}
+input::placeholder{color:rgba(247,242,233,.25);}
+select option{background:#2A1810;}
+
+.advtoggle{
+  width:100%;padding:10px;border-radius:9px;
+  border:1px dashed rgba(184,151,90,.25);
+  background:transparent;color:rgba(247,242,233,.45);cursor:pointer;
+  font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;
+  transition:all .18s;margin-bottom:14px;
+}
+.advtoggle:hover{color:#F7F2E9;border-color:rgba(212,174,114,.55);}
+.advtoggle .car{transition:transform .2s;display:inline-block;}
+.advtoggle.open .car{transform:rotate(90deg);}
+#advanced{display:none;}
+#advanced.show{display:block;}
+.subseg{display:flex;gap:6px;flex-wrap:wrap;}
+.subseg button{
+  padding:8px 12px;border-radius:8px;
+  border:1px solid rgba(184,151,90,.22);background:rgba(255,255,255,.02);
+  color:rgba(247,242,233,.5);cursor:pointer;font-size:12px;transition:all .15s;
+}
+.subseg button.on{color:var(--walnut);background:var(--gold);border-color:transparent;}
+.dimrow{display:flex;gap:7px;}
+.dimrow .cell{flex:1;}
+.dimrow input{width:100%;padding:8px;text-align:center;}
+.dimrow .cell span{font-size:10px;color:rgba(247,242,233,.4);display:block;text-align:center;margin-bottom:4px;}
+.check{display:flex;align-items:center;gap:8px;font-size:13px;color:#F7F2E9;cursor:pointer;}
+.check input{width:16px;height:16px;accent-color:var(--gold);}
+.smallnote{font-size:11px;color:#C9A870;margin-top:6px;line-height:1.4;}
+
+.itembar{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:7px;}
+.itembar button{
+  padding:6px 10px;border-radius:8px;
+  border:1px solid rgba(184,151,90,.22);
+  background:rgba(255,255,255,.03);color:#F7F2E9;cursor:pointer;font-size:12px;transition:all .15s;
+}
+.itembar button:hover{border-color:rgba(212,174,114,.5);}
+.itembar button.danger:hover{border-color:#d06060;color:#ffb3b3;}
+.itemlist{
+  list-style:none;max-height:110px;overflow-y:auto;
+  border:1px solid rgba(184,151,90,.2);border-radius:9px;margin-bottom:9px;
+}
+.itemlist li{
+  padding:7px 10px;font-size:12px;color:rgba(247,242,233,.5);cursor:pointer;
+  border-bottom:1px solid rgba(184,151,90,.08);display:flex;gap:8px;align-items:center;
+}
+.itemlist li:last-child{border-bottom:none;}
+.itemlist li.sel{background:rgba(212,174,114,.1);color:#F7F2E9;}
+.itemlist li .tag{font-size:9px;padding:2px 6px;border-radius:5px;background:rgba(184,151,90,.2);color:var(--gold-light);}
+.ctrl{margin-bottom:9px;}
+.ctrl label{font-size:11px;color:rgba(247,242,233,.45);display:block;margin-bottom:4px;}
+.ctrl input[type=range]{width:100%;accent-color:var(--gold);}
+.ctrl .rowflex{display:flex;align-items:center;gap:8px;}
+.ctrl .rowflex span{font-size:11px;color:var(--gold-light);min-width:34px;text-align:right;}
+
+.export{
+  width:100%;margin-top:5px;padding:14px;border:none;border-radius:11px;cursor:pointer;
+  font-size:15px;font-weight:700;letter-spacing:.4px;
+  color:var(--walnut);
+  background:linear-gradient(135deg,var(--gold-light),var(--gold));
+  box-shadow:0 6px 24px rgba(184,151,90,.3);transition:transform .12s,box-shadow .2s;
+}
+.export:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(184,151,90,.45);}
+.export:active{transform:translateY(0);}
+.export:disabled{opacity:.6;cursor:wait;transform:none;}
+.ghostbtn{
+  width:100%;margin-top:7px;padding:10px;border-radius:9px;
+  border:1px solid rgba(184,151,90,.25);
+  background:rgba(255,255,255,.02);color:#F7F2E9;cursor:pointer;font-size:13px;transition:all .15s;
+}
+.ghostbtn:hover{border-color:rgba(212,174,114,.55);}
+.hint{font-size:11px;color:rgba(247,242,233,.3);text-align:center;margin-top:8px;line-height:1.5;}
+
+.toast{
+  position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(120px);
+  background:#2A1810;border:1px solid rgba(184,151,90,.3);padding:12px 20px;border-radius:10px;
+  font-size:13px;color:#F7F2E9;z-index:200;
+  transition:transform .35s cubic-bezier(.2,.9,.3,1.2);box-shadow:0 10px 40px rgba(0,0,0,.5);
+}
+.toast.show{transform:translateX(-50%) translateY(0);}
+.toast.err{border-color:#c06060;color:#ffb3b3;}
+
+/* ── Footer ── */
+.site-footer{
+  background:var(--walnut);padding:56px 48px;
+  border-top:1px solid rgba(184,151,90,.15);
+}
+.footer-inner{
+  max-width:1100px;margin:0 auto;
+  display:flex;justify-content:space-between;align-items:flex-start;gap:40px;flex-wrap:wrap;
+}
+.footer-brand{display:flex;align-items:center;gap:10px;color:#F7F2E9;font-family:var(--serif);font-size:17px;}
+.footer-brand .nav-cross{color:var(--gold);}
+.footer-tagline{font-size:13px;color:rgba(247,242,233,.4);margin-top:8px;line-height:1.6;}
+.footer-links{display:flex;gap:28px;flex-wrap:wrap;}
+.footer-links a{text-decoration:none;color:rgba(247,242,233,.5);font-size:13px;transition:color .2s;}
+.footer-links a:hover{color:var(--gold);}
+.footer-bottom{
+  max-width:1100px;margin:32px auto 0;
+  padding-top:24px;border-top:1px solid rgba(184,151,90,.1);
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;
+}
+.footer-bottom p{font-size:12px;color:rgba(247,242,233,.25);}
+.footer-ftc{
+  font-size:12px;color:rgba(247,242,233,.25);max-width:480px;line-height:1.5;
+}
+
+/* ── Utility ── */
+.hidden{display:none !important;}
+@media(max-width:900px){
+  .story-inner{grid-template-columns:1fr;}
+  .story-photo{aspect-ratio:16/9;order:-1;}
+  .pricing-grid{grid-template-columns:1fr;}
+  .sitenav{padding:16px 24px;}
+  .story{padding:72px 24px;}
+  .pricing-section{padding:72px 24px;}
+  .config-header{padding:28px 20px 0;}
+  .wrap{padding:12px 16px 16px;}
+  .stage{grid-template-columns:1fr;grid-template-rows:auto 1fr;}
+  .gallery-strip{grid-template-columns:repeat(2,1fr);}
+  .gallery-strip .gallery-cell:nth-child(n+3){display:none;}
+}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <div class="logo">✝</div>
-    <div class="title">
-      <h1>Casket Configurator</h1>
-      <p>Build a casket order &middot; live preview &middot; CNC-ready DXF</p>
-    </div>
-    <div class="badge">BrainOS</div>
-  </header>
 
-  <div class="stage">
-    <!-- PREVIEW -->
-    <div class="glass preview">
-      <div class="topbar">
-        <div class="label" id="previewLabel">Live Preview — Lid</div>
-        <div class="panelpills" id="panelPills"></div>
-      </div>
-      <div id="canvasHost"><canvas id="cv" width="700" height="460"></canvas></div>
-      <div class="dims" id="dims"></div>
-      <div class="edithint" id="editHint">drag item to move &middot; drag ◉ to rotate &middot; drag corner ● to scale</div>
-    </div>
+<!-- ── NAV ── -->
+<nav class="sitenav" id="sitenav">
+  <a href="#" class="nav-brand">
+    <span class="nav-cross">✝</span>
+    <span>Fiat Casket Co.</span>
+  </a>
+  <div class="nav-links">
+    <a href="#story">Our Story</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#configure" class="nav-cta">Configure Yours</a>
+  </div>
+</nav>
 
-    <!-- CONTROLS -->
-    <div class="glass panel">
-      <h2>Casket Size</h2>
-      <div class="group">
-        <div class="seg" id="sizeSeg">
-          {% for s in sizes %}
-          <button data-size="{{ s.id }}" data-l="{{ s.int_L }}" data-w="{{ s.int_W }}" data-d="{{ s.int_D }}">{{ s.label }}</button>
-          {% endfor %}
-        </div>
-      </div>
-
-      <h2>Design</h2>
-      <div class="group">
-        <div class="designs" id="designGrid">
-          {% for d in designs %}
-          <div class="dchip" data-design="{{ d.id }}" data-label="{{ d.label }}" title="{{ d.label }}"></div>
-          {% endfor %}
-        </div>
-        <div class="dname" id="designName"></div>
-      </div>
-
-      <h2>Personalize</h2>
-      <div class="group">
-        <label class="fld" for="text">Inscription</label>
-        <input type="text" id="text" value="{{ default_text }}" maxlength="80" placeholder="Requiescat in Pace">
-      </div>
-      <div class="group">
-        <label class="fld" for="customer">Name on order (optional)</label>
-        <input type="text" id="customer" maxlength="40" placeholder="e.g. Smith Family">
-      </div>
-
-      <!-- ADVANCED DRAWER -->
-      <button class="advtoggle" id="advToggle"><span class="car">▶</span> Advanced options</button>
-      <div id="advanced">
-
-        <h2>Shape</h2>
-        <div class="group">
-          <div class="subseg" id="shapeSeg">
-            <button data-shape="casket" class="on">Rectangular casket</button>
-            <button data-shape="coffin">6-sided coffin</button>
-          </div>
-        </div>
-
-        <h2>Interior dimensions</h2>
-        <div class="group">
-          <div class="dimrow">
-            <div class="cell"><span>Length"</span><input type="text" id="dimL"></div>
-            <div class="cell"><span>Width"</span><input type="text" id="dimW"></div>
-            <div class="cell"><span>Depth"</span><input type="text" id="dimD"></div>
-          </div>
-        </div>
-
-        <div id="coffinDims" class="group hidden">
-          <h2>Coffin shape</h2>
-          <div class="dimrow" style="margin-bottom:8px">
-            <div class="cell"><span>Head W"</span><input type="text" id="cofHW"></div>
-            <div class="cell"><span>Foot W"</span><input type="text" id="cofFW"></div>
-          </div>
-          <div class="dimrow">
-            <div class="cell"><span>Shldr→Head"</span><input type="text" id="cofSFH"></div>
-            <div class="cell"><span>Shldr→Foot"</span><input type="text" id="cofSFF"></div>
-          </div>
-        </div>
-
-        <h2>Joinery</h2>
-        <div class="group">
-          <div class="subseg" id="joinerySeg">
-            <button data-joinery="rabbet">Rabbet</button>
-            <button data-joinery="box" class="on">Box joint</button>
-          </div>
-          <div id="cornerWrap" style="margin-top:8px">
-            <div class="subseg" id="cornerSeg">
-              <button data-corner="square" class="on">Finger pockets</button>
-              <button data-corner="dovetail">Dovetail lock (14°)</button>
-            </div>
-          </div>
-          <div class="smallnote hidden" id="joineryWarn"></div>
-        </div>
-
-        <div class="group" id="splitLidWrap">
-          <label class="check"><input type="checkbox" id="splitLid"> Two-piece lid (wake viewing)</label>
-        </div>
-
-        <h2>Panel items <span style="color:#5a627c;font-weight:400;text-transform:none;letter-spacing:0">— edit on canvas</span></h2>
-        <div class="group">
-          <div class="itembar">
-            <button id="addText">+ Text</button>
-            <button id="addDesign">+ Symbol</button>
-            <button id="addArt">+ Import art</button>
-            <button id="dupItem">Duplicate</button>
-            <button id="removeItem" class="danger">Remove</button>
-          </div>
-          <ul class="itemlist" id="itemList"></ul>
-
-          <div id="itemCtrls">
-            <div class="ctrl" id="ctrlText">
-              <label>Text</label>
-              <input type="text" id="itemText" maxlength="80">
-            </div>
-            <div class="ctrl" id="ctrlFont">
-              <label>Font (engraving)</label>
-              <select id="itemFont">
-                {% for f in fonts %}<option value="{{ f }}">{{ f }}</option>{% endfor %}
-              </select>
-            </div>
-            <div class="ctrl" id="ctrlRot">
-              <label>Rotation</label>
-              <div class="rowflex"><input type="range" id="itemRot" min="0" max="345" step="15" value="0"><span id="rotVal">0°</span></div>
-            </div>
-            <div class="ctrl" id="ctrlScale">
-              <label>Scale</label>
-              <div class="rowflex"><input type="range" id="itemScale" min="0.4" max="3" step="0.05" value="1"><span id="scaleVal">1.0×</span></div>
-            </div>
-            <div class="ctrl" id="ctrlWidth">
-              <label>Text width</label>
-              <div class="rowflex"><input type="range" id="itemWidth" min="0.05" max="1" step="0.01" value="0.45"><span id="widthVal">0.45</span></div>
-            </div>
-            <div class="smallnote" id="layerInfo" style="color:var(--muted)"></div>
-          </div>
-        </div>
-
-        <h2>Custom lid design</h2>
-        <div class="group">
-          <div class="itembar">
-            <button id="importLidDxf">Import DXF / SVG…</button>
-            <button id="clearLidDxf" class="danger">Clear</button>
-          </div>
-          <div class="smallnote" id="lidDxfLabel" style="color:var(--muted)">None imported</div>
-        </div>
-
-        <h2>3D model</h2>
-        <div class="group">
-          <button class="ghostbtn" id="unfoldBtn">View unfolded panel layout</button>
-          <button class="ghostbtn" id="freecadBtn">Generate FreeCAD model</button>
-        </div>
-      </div>
-
-      <button class="export" id="exportBtn">⬇  Generate CNC Files (DXF)</button>
-      <div class="hint">Downloads a .zip of every panel + cut sheet, ready for the Thermwood.</div>
+<!-- ── HERO ── -->
+<section class="hero" id="hero">
+  <div class="hero-img-wrap">
+    <img src="/static/images/hero.jpg" alt="Fiat Casket — pine casket with cross engraving" class="hero-img" onerror="this.style.display='none'">
+    <div class="hero-overlay"></div>
+  </div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Fiat Casket Co.</p>
+    <h1 class="hero-h1">A Casket<br>Built for Love</h1>
+    <p class="hero-sub">CNC-crafted solid pine. Assembled by the people who knew them best — each joint a small act of devotion.</p>
+    <div class="hero-btns">
+      <a href="#configure" class="btn-primary">Configure Yours</a>
+      <a href="#story" class="btn-ghost">Our Story</a>
     </div>
   </div>
+  <div class="hero-scroll">scroll</div>
+</section>
+
+<!-- ── STORY ── -->
+<section class="story" id="story">
+  <div class="story-inner">
+    <div class="story-text">
+      <p class="section-eyebrow">The Origin</p>
+      <h2 class="section-h2">Papa Wieber's Last Gift</h2>
+      <p class="story-body">Our family built Papa Wieber's casket by hand. It was not a sad task — it was the last act of love we could give him. The smell of pine shavings, a quiet garage, the whole family gathered at a workbench.</p>
+      <p class="story-body">Fiat Casket Co. was born from that afternoon. A CNC-cut kit that makes the same thing possible for your family: a real solid pine casket, precision box-jointed, assembled prayerfully.</p>
+      <p class="story-body story-fiat"><em>Fiat</em> — Mary's word at the Annunciation. "Let it be done." A fitting word for the last gift you give someone you love.</p>
+      <p class="story-body" style="font-size:15px;color:var(--text-light);">By federal law, funeral homes must accept outside caskets at no surcharge. You are free to purchase from us and present your casket at any funeral home.</p>
+    </div>
+    <div class="story-photo" id="storyPhoto">
+      <img src="/static/images/story.jpg" alt="Casket assembly" onerror="this.parentElement.classList.add('no-photo');this.style.display='none'">
+      <p class="photo-caption">Pine and box joints — visible craftsmanship at every corner</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── GALLERY STRIP (photos 1–4) ── -->
+<div class="gallery-strip">
+  <div class="gallery-cell" id="gc1"><img src="/static/images/gallery1.jpg" alt="" onerror="this.parentElement.classList.add('no-img');this.style.display='none'"></div>
+  <div class="gallery-cell" id="gc2"><img src="/static/images/gallery2.jpg" alt="" onerror="this.parentElement.classList.add('no-img');this.style.display='none'"></div>
+  <div class="gallery-cell" id="gc3"><img src="/static/images/gallery3.jpg" alt="" onerror="this.parentElement.classList.add('no-img');this.style.display='none'"></div>
+  <div class="gallery-cell" id="gc4"><img src="/static/images/gallery4.jpg" alt="" onerror="this.parentElement.classList.add('no-img');this.style.display='none'"></div>
 </div>
 
+<!-- ── PRICING ── -->
+<section class="pricing-section" id="pricing">
+  <div class="pricing-inner">
+    <p class="section-eyebrow center">What We Build</p>
+    <h2 class="section-h2 center">Three Ways to Honor a Life</h2>
+    <p class="pricing-intro">All caskets are solid pine, box-jointed, with no nails or screws — the same construction used by the Trappist monks for generations.</p>
+    <div class="pricing-grid">
+
+      <div class="price-card">
+        <div class="price-card-top">
+          <h3>Flat-Pack Kit</h3>
+          <p class="price-desc">Ships anywhere via FedEx Ground. Your family assembles it together — the assembly guide is written as a devotional act, with a short prayer at each joint.</p>
+        </div>
+        <div class="price-variants">
+          <div class="pv"><span class="pv-label">Adult</span><span class="pv-price">$875</span></div>
+          <div class="pv"><span class="pv-label">Child</span><span class="pv-price">$650</span></div>
+          <div class="pv"><span class="pv-label">Infant</span><span class="pv-price">$450</span></div>
+        </div>
+        <a href="#configure" class="card-btn">Configure &amp; Order</a>
+      </div>
+
+      <div class="price-card featured">
+        <div class="price-badge">Heritage Collection</div>
+        <div class="price-card-top">
+          <h3>Kit + Bookcase</h3>
+          <p class="price-desc">Everything in the Flat-Pack Kit, plus a bookcase conversion — so it lives as furniture in your home, a quiet presence, until the day it is needed.</p>
+        </div>
+        <div class="price-variants">
+          <div class="pv"><span class="pv-label">Adult Heritage</span><span class="pv-price">$975</span></div>
+        </div>
+        <a href="#configure" class="card-btn">Configure &amp; Order</a>
+      </div>
+
+      <div class="price-card">
+        <div class="price-card-top">
+          <h3>Assembled Pre-Need</h3>
+          <p class="price-desc">Fully assembled and delivered locally (PA&nbsp;/&nbsp;WA). Latin cross, Catholic engraving, or a custom patron saint inscription with your family's name.</p>
+        </div>
+        <div class="price-variants">
+          <div class="pv"><span class="pv-label">Plain cross</span><span class="pv-price">$1,200 – 1,500</span></div>
+          <div class="pv"><span class="pv-label">Catholic engraving</span><span class="pv-price">$1,500 – 2,000</span></div>
+          <div class="pv"><span class="pv-label">Custom patron saint</span><span class="pv-price">$1,800 – 2,500</span></div>
+        </div>
+        <a href="mailto:hello@fiatcasket.com" class="card-btn">Request a Quote</a>
+      </div>
+
+    </div>
+    <p class="pricing-note">
+      <strong>Federal law protects your choice.</strong> Under the FTC Funeral Rule, funeral homes are required to accept any casket you provide — at no handling fee and no surcharge. You have the right to purchase from us and present your casket at any licensed funeral home in the United States.
+    </p>
+  </div>
+</section>
+
+<!-- ── CONFIGURATOR ── -->
+<section class="configurator-section" id="configure">
+  <div class="config-header">
+    <p class="section-eyebrow">Build It Yourself</p>
+    <h2 class="section-h2 light" style="margin-bottom:6px;">Configure Your Casket</h2>
+    <p class="config-intro">Choose size, design, and inscription. Export CNC-ready DXF files to cut at any shop, or submit your configuration for a quote.</p>
+  </div>
+
+  <div class="wrap">
+    <div class="config-wrap-header">
+      <div class="logo-chip">✝</div>
+      <div class="wrap-title">
+        <h1>Casket Configurator</h1>
+        <p>Live preview &middot; CNC-ready DXF export</p>
+      </div>
+    </div>
+
+    <div class="stage">
+      <!-- PREVIEW -->
+      <div class="glass preview">
+        <div class="topbar">
+          <div class="label" id="previewLabel">Live Preview — Lid</div>
+          <div class="panelpills" id="panelPills"></div>
+        </div>
+        <div id="canvasHost"><canvas id="cv" width="700" height="460"></canvas></div>
+        <div class="dims" id="dims"></div>
+        <div class="edithint" id="editHint">drag item to move &middot; drag ◉ to rotate &middot; drag corner ● to scale</div>
+      </div>
+
+      <!-- CONTROLS -->
+      <div class="glass panel">
+        <h2>Casket Size</h2>
+        <div class="group">
+          <div class="seg" id="sizeSeg">
+            {% for s in sizes %}
+            <button data-size="{{ s.id }}" data-l="{{ s.int_L }}" data-w="{{ s.int_W }}" data-d="{{ s.int_D }}">{{ s.label }}</button>
+            {% endfor %}
+          </div>
+        </div>
+
+        <h2>Design</h2>
+        <div class="group">
+          <div class="designs" id="designGrid">
+            {% for d in designs %}
+            <div class="dchip" data-design="{{ d.id }}" data-label="{{ d.label }}" title="{{ d.label }}"></div>
+            {% endfor %}
+          </div>
+          <div class="dname" id="designName"></div>
+        </div>
+
+        <h2>Personalize</h2>
+        <div class="group">
+          <label class="fld" for="text">Inscription</label>
+          <input type="text" id="text" value="{{ default_text }}" maxlength="80" placeholder="Requiescat in Pace">
+        </div>
+        <div class="group">
+          <label class="fld" for="customer">Name on order (optional)</label>
+          <input type="text" id="customer" maxlength="40" placeholder="e.g. Smith Family">
+        </div>
+
+        <!-- ADVANCED DRAWER -->
+        <button class="advtoggle" id="advToggle"><span class="car">▶</span> Advanced options</button>
+        <div id="advanced">
+
+          <h2>Shape</h2>
+          <div class="group">
+            <div class="subseg" id="shapeSeg">
+              <button data-shape="casket" class="on">Rectangular casket</button>
+              <button data-shape="coffin">6-sided coffin</button>
+            </div>
+          </div>
+
+          <h2>Interior dimensions</h2>
+          <div class="group">
+            <div class="dimrow">
+              <div class="cell"><span>Length"</span><input type="text" id="dimL"></div>
+              <div class="cell"><span>Width"</span><input type="text" id="dimW"></div>
+              <div class="cell"><span>Depth"</span><input type="text" id="dimD"></div>
+            </div>
+          </div>
+
+          <div id="coffinDims" class="group hidden">
+            <h2>Coffin shape</h2>
+            <div class="dimrow" style="margin-bottom:8px">
+              <div class="cell"><span>Head W"</span><input type="text" id="cofHW"></div>
+              <div class="cell"><span>Foot W"</span><input type="text" id="cofFW"></div>
+            </div>
+            <div class="dimrow">
+              <div class="cell"><span>Shldr→Head"</span><input type="text" id="cofSFH"></div>
+              <div class="cell"><span>Shldr→Foot"</span><input type="text" id="cofSFF"></div>
+            </div>
+          </div>
+
+          <h2>Joinery</h2>
+          <div class="group">
+            <div class="subseg" id="joinerySeg">
+              <button data-joinery="rabbet">Rabbet</button>
+              <button data-joinery="box" class="on">Box joint</button>
+            </div>
+            <div id="cornerWrap" style="margin-top:8px">
+              <div class="subseg" id="cornerSeg">
+                <button data-corner="square" class="on">Finger pockets</button>
+                <button data-corner="dovetail">Dovetail lock (14°)</button>
+              </div>
+            </div>
+            <div class="smallnote hidden" id="joineryWarn"></div>
+          </div>
+
+          <div class="group" id="splitLidWrap">
+            <label class="check"><input type="checkbox" id="splitLid"> Two-piece lid (wake viewing)</label>
+          </div>
+
+          <h2>Panel items <span style="color:rgba(247,242,233,.25);font-weight:400;text-transform:none;letter-spacing:0">— edit on canvas</span></h2>
+          <div class="group">
+            <div class="itembar">
+              <button id="addText">+ Text</button>
+              <button id="addDesign">+ Symbol</button>
+              <button id="addArt">+ Import art</button>
+              <button id="dupItem">Duplicate</button>
+              <button id="removeItem" class="danger">Remove</button>
+            </div>
+            <ul class="itemlist" id="itemList"></ul>
+            <div id="itemCtrls">
+              <div class="ctrl" id="ctrlText">
+                <label>Text</label>
+                <input type="text" id="itemText" maxlength="80">
+              </div>
+              <div class="ctrl" id="ctrlFont">
+                <label>Font (engraving)</label>
+                <select id="itemFont">
+                  {% for f in fonts %}<option value="{{ f }}">{{ f }}</option>{% endfor %}
+                </select>
+              </div>
+              <div class="ctrl" id="ctrlRot">
+                <label>Rotation</label>
+                <div class="rowflex"><input type="range" id="itemRot" min="0" max="345" step="15" value="0"><span id="rotVal">0°</span></div>
+              </div>
+              <div class="ctrl" id="ctrlScale">
+                <label>Scale</label>
+                <div class="rowflex"><input type="range" id="itemScale" min="0.4" max="3" step="0.05" value="1"><span id="scaleVal">1.0×</span></div>
+              </div>
+              <div class="ctrl" id="ctrlWidth">
+                <label>Text width</label>
+                <div class="rowflex"><input type="range" id="itemWidth" min="0.05" max="1" step="0.01" value="0.45"><span id="widthVal">0.45</span></div>
+              </div>
+              <div class="smallnote" id="layerInfo" style="color:rgba(247,242,233,.35)"></div>
+            </div>
+          </div>
+
+          <h2>Custom lid design</h2>
+          <div class="group">
+            <div class="itembar">
+              <button id="importLidDxf">Import DXF / SVG…</button>
+              <button id="clearLidDxf" class="danger">Clear</button>
+            </div>
+            <div class="smallnote" id="lidDxfLabel" style="color:rgba(247,242,233,.35)">None imported</div>
+          </div>
+
+          <h2>3D model</h2>
+          <div class="group">
+            <button class="ghostbtn" id="unfoldBtn">View unfolded panel layout</button>
+            <button class="ghostbtn" id="freecadBtn">Generate FreeCAD model</button>
+          </div>
+        </div>
+
+        <button class="export" id="exportBtn">⬇  Generate CNC Files (DXF)</button>
+        <div class="hint">Downloads a .zip of every panel + cut sheet, ready for the Thermwood.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand"><span class="nav-cross">✝</span> Fiat Casket Co.</div>
+      <p class="footer-tagline">Handcrafted Catholic caskets.<br>Built for love. Built to last.</p>
+    </div>
+    <div class="footer-links">
+      <a href="#story">Our Story</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#configure">Configure</a>
+      <a href="mailto:hello@fiatcasket.com">Contact</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 Fiat Casket Co. Meadville, PA &amp; Everett, WA</p>
+    <p class="footer-ftc">Under the FTC Funeral Rule, funeral homes must accept caskets purchased elsewhere at no additional handling fee.</p>
+  </div>
+</footer>
+
+<!-- hidden file inputs -->
 <input type="file" id="artFile" accept=".svg,.dxf" class="hidden">
 <input type="file" id="lidDxfFile" accept=".svg,.dxf" class="hidden">
 <div class="toast" id="toast"></div>
 
 <script>
+/* Nav scroll effect */
+const nav=document.getElementById('sitenav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>60),{passive:true});
+
 const MAT = {{ material }};
 const COFFIN_DEF = {{ coffin|tojson }};
 const SNAP_TARGETS=[0,0.25,0.333,0.5,0.667,0.75,1.0], SNAP_TOL=0.03;
@@ -373,7 +872,7 @@ document.querySelectorAll('.dchip').forEach(ch=>{
   const id=ch.dataset.design;
   const c=document.createElement('canvas'); c.width=c.height=44; const x=c.getContext('2d');
   ch.appendChild(c);
-  ch._paint=on=>{ x.clearRect(0,0,44,44); drawDesign(x,id,22,22,28,on?'#6ee7ff':'#8a92ac',2.2,0); };
+  ch._paint=on=>{ x.clearRect(0,0,44,44); drawDesign(x,id,22,22,28,on?'#D4AE72':'rgba(247,242,233,.4)',2.2,0); };
   ch._paint(false);
   ch.addEventListener('click',()=>selectDesign(id));
 });
@@ -446,13 +945,11 @@ function draw(){
   }
   ctx.restore();
 
-  // grain
-  ctx.strokeStyle='rgba(232,216,192,.10)'; ctx.lineWidth=1; ctx.setLineDash([4,9]);
+  ctx.strokeStyle='rgba(200,170,110,.08)'; ctx.lineWidth=1; ctx.setLineDash([4,9]);
   for(let i=1;i<7;i++){const gy=y0+h*i/7; ctx.beginPath(); ctx.moveTo(x0+4,gy); ctx.lineTo(x0+w-4,gy); ctx.stroke();}
   ctx.setLineDash([]);
 
-  // snap guides
-  ctx.strokeStyle='#4090e0'; ctx.setLineDash([3,5]);
+  ctx.strokeStyle='#C9A870'; ctx.setLineDash([3,5]);
   if(snapH!==null){const gx=x0+w*snapH; ctx.beginPath(); ctx.moveTo(gx,y0); ctx.lineTo(gx,y0+h); ctx.stroke();}
   if(snapV!==null){const gy=y0+h*(1-snapV); ctx.beginPath(); ctx.moveTo(x0,gy); ctx.lineTo(x0+w,gy); ctx.stroke();}
   ctx.setLineDash([]);
@@ -460,23 +957,22 @@ function draw(){
   bboxes={};
   items().forEach((it,i)=>drawItem(it,i,x0,y0,w,h));
 
-  // caption
-  ctx.fillStyle='#888'; ctx.font="12px 'Segoe UI'"; ctx.textAlign='center'; ctx.textBaseline='top';
+  ctx.fillStyle='rgba(247,242,233,.3)'; ctx.font="12px 'Inter',sans-serif"; ctx.textAlign='center'; ctx.textBaseline='top';
   ctx.fillText(`${label}  ·  ${pw.toFixed(1)}" × ${ph.toFixed(1)}"`, x0+w/2, y0+h+8);
 
   $('dims').innerHTML=`Interior <b>${state.L}" × ${state.W}" × ${state.D}"</b> &nbsp;|&nbsp; Lid <b>${(state.L+2*MAT).toFixed(1)}" × ${(state.W+2*MAT).toFixed(1)}"</b>`;
 }
 function slab(x0,y0,w,h){
   const g=ctx.createLinearGradient(x0,y0,x0,y0+h);
-  g.addColorStop(0,'rgba(40,46,68,.55)'); g.addColorStop(1,'rgba(20,24,38,.55)');
-  ctx.fillStyle=g; rr(x0,y0,w,h,12); ctx.fill();
-  ctx.save(); ctx.shadowColor='rgba(110,231,255,.6)'; ctx.shadowBlur=16;
-  ctx.strokeStyle='#6ee7ff'; ctx.lineWidth=2; rr(x0,y0,w,h,12); ctx.stroke(); ctx.restore();
+  g.addColorStop(0,'rgba(80,50,28,.6)'); g.addColorStop(1,'rgba(50,28,12,.6)');
+  ctx.fillStyle=g; rr(x0,y0,w,h,10); ctx.fill();
+  ctx.save(); ctx.shadowColor='rgba(212,174,114,.5)'; ctx.shadowBlur=14;
+  ctx.strokeStyle='#B8975A'; ctx.lineWidth=1.5; rr(x0,y0,w,h,10); ctx.stroke(); ctx.restore();
 }
 function drawPoly(pts,x0,y0,sx,sy){
-  ctx.fillStyle='rgba(30,36,56,.55)';
-  ctx.save(); ctx.shadowColor='rgba(110,231,255,.55)'; ctx.shadowBlur=14;
-  ctx.strokeStyle='#6ee7ff'; ctx.lineWidth=2;
+  ctx.fillStyle='rgba(60,36,18,.6)';
+  ctx.save(); ctx.shadowColor='rgba(184,151,90,.5)'; ctx.shadowBlur=12;
+  ctx.strokeStyle='#B8975A'; ctx.lineWidth=1.5;
   ctx.beginPath();
   pts.forEach((pt,i)=>{const X=x0+pt[0]*sx, Y=y0+pt[1]*sy; i?ctx.lineTo(X,Y):ctx.moveTo(X,Y);});
   ctx.closePath(); ctx.fill(); ctx.stroke(); ctx.restore();
@@ -485,7 +981,7 @@ function drawCombs(x0,y0,pw,ph,scale){
   const sideTabs=!['end','coffin_head','coffin_foot','coffin_sh_head','coffin_sh_foot','coffin_bottom','bottom'].includes(state.activePanel);
   const [n,fw]=boxFingerParams(ph,FINGER_W);
   const fwpx=fw*scale, mpx=MAT*scale, pwpx=pw*scale;
-  ctx.fillStyle='rgba(224,200,152,.5)';
+  ctx.fillStyle='rgba(184,151,90,.35)';
   for(let i=0;i<n;i++){
     const isTab=sideTabs?(i%2===0):(i%2===1);
     if(isTab) continue;
@@ -521,7 +1017,7 @@ function drawItem(it,i,x0,y0,w,h){
   let bb;
   if(it.type==='design'){
     const size=Math.min(w,h)*0.42*(it.scale||1);
-    drawDesign(ctx,it.design,cx,cy,size,sel?'#6ee7ff':'#b89878',sel?3:2.4,rot);
+    drawDesign(ctx,it.design,cx,cy,size,sel?'#D4AE72':'rgba(200,170,120,.8)',sel?3:2.4,rot);
     bb=rotBox(cx,cy,size*0.7,size*0.62,rot);
   } else if(it.type==='custom_art'||it.type==='custom_dxf'){
     const size=Math.min(w,h)*0.62*(it.scale||1);
@@ -530,7 +1026,7 @@ function drawItem(it,i,x0,y0,w,h){
     const t=(it.text||'').trim(); if(!t){bboxes[i]=null;return;}
     const {lines,fs}=wrapText(t,it,w);
     ctx.save(); ctx.translate(cx,cy); ctx.rotate(rot*Math.PI/180);
-    ctx.fillStyle='#e8ecf6'; ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillStyle='#F7F2E9'; ctx.textAlign='center'; ctx.textBaseline='middle';
     ctx.font=`italic ${fs}px '${it.font||'Times New Roman'}',serif`;
     let maxw=0; lines.forEach(l=>maxw=Math.max(maxw,ctx.measureText(l).width));
     const lh=fs*1.25, total=lh*(lines.length-1);
@@ -541,36 +1037,33 @@ function drawItem(it,i,x0,y0,w,h){
   }
   bboxes[i]=bb;
 
-  // selection chrome
-  ctx.strokeStyle=sel?'#5b8dee':'#90a8d0'; ctx.lineWidth=sel?2:1; ctx.setLineDash([4,3]);
+  ctx.strokeStyle=sel?'#D4AE72':'rgba(184,151,90,.5)'; ctx.lineWidth=sel?2:1; ctx.setLineDash([4,3]);
   ctx.strokeRect(bb.x0,bb.y0,bb.x1-bb.x0,bb.y1-bb.y0); ctx.setLineDash([]);
 
-  // layer tag
-  ctx.fillStyle=autoLayer(it)==='centerline'?'#5577aa':'#aa7755';
-  ctx.font="9px 'Segoe UI'"; ctx.textAlign='left'; ctx.textBaseline='bottom';
+  ctx.fillStyle=autoLayer(it)==='centerline'?'#8090A0':'#A07050';
+  ctx.font="9px 'Inter'"; ctx.textAlign='left'; ctx.textBaseline='bottom';
   ctx.fillText(autoLayer(it).slice(0,4),bb.x0+2,bb.y0-1);
 
   if(sel){
     [[bb.x0,bb.y0],[bb.x1,bb.y0],[bb.x1,bb.y1],[bb.x0,bb.y1]].forEach(([hx,hy])=>{
-      ctx.fillStyle='#5b8dee'; ctx.strokeStyle='#1040a0';
+      ctx.fillStyle='#D4AE72'; ctx.strokeStyle='#7A5020';
       ctx.fillRect(hx-HANDLE_R,hy-HANDLE_R,2*HANDLE_R,2*HANDLE_R);
       ctx.strokeRect(hx-HANDLE_R,hy-HANDLE_R,2*HANDLE_R,2*HANDLE_R);
     });
-    // rotation handle
     const rh=rotHandlePos(cx,cy,bb,rot);
-    ctx.strokeStyle='#5b8dee'; ctx.setLineDash([2,3]); ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(rh.x,rh.y); ctx.stroke(); ctx.setLineDash([]);
-    ctx.fillStyle='#60a0e0'; ctx.beginPath(); ctx.arc(rh.x,rh.y,ROT_R,0,Math.PI*2); ctx.fill(); ctx.stroke();
+    ctx.strokeStyle='#D4AE72'; ctx.setLineDash([2,3]); ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(rh.x,rh.y); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='#C49060'; ctx.beginPath(); ctx.arc(rh.x,rh.y,ROT_R,0,Math.PI*2); ctx.fill(); ctx.stroke();
     it._rh=rh;
     if(it.type==='text'){
       const wx=bb.x1+10, wy=(bb.y0+bb.y1)/2;
-      ctx.fillStyle='#5b8dee'; ctx.beginPath(); ctx.arc(wx,wy,HANDLE_R,0,Math.PI*2); ctx.fill(); ctx.stroke();
+      ctx.fillStyle='#D4AE72'; ctx.beginPath(); ctx.arc(wx,wy,HANDLE_R,0,Math.PI*2); ctx.fill(); ctx.stroke();
       it._wh={x:wx,y:wy};
     }
   }
 }
 function drawArt(it,cx,cy,size,rot,sel){
   const ca=Math.cos(rot*Math.PI/180), sa=Math.sin(rot*Math.PI/180);
-  const col=sel?'#6ee7ff':(it.type==='custom_dxf'?'#8b6b4a':'#b89878');
+  const col=sel?'#D4AE72':(it.type==='custom_dxf'?'#A07848':'rgba(200,170,120,.8)');
   ctx.strokeStyle=col; ctx.lineWidth=1.2;
   let xs=[],ys=[]; const paths=it.paths||[];
   paths.forEach((path,pi)=>{
@@ -586,7 +1079,7 @@ function drawArt(it,cx,cy,size,rot,sel){
   });
   if(!xs.length){ xs=[cx-size/2,cx+size/2]; ys=[cy-size/2,cy+size/2];
     ctx.strokeRect(cx-size/2,cy-size/2,size,size);
-    ctx.fillStyle=col; ctx.font="11px 'Segoe UI'"; ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillStyle=col; ctx.font="11px 'Inter'"; ctx.textAlign='center'; ctx.textBaseline='middle';
     ctx.fillText((it.name||'art').slice(0,18),cx,cy);
   }
   return {x0:Math.min(...xs)-4,y0:Math.min(...ys)-4,x1:Math.max(...xs)+4,y1:Math.max(...ys)+4};
@@ -868,16 +1361,15 @@ function openUnfold(){
     P.push(['lid',bx,by+iw+GAP+sideH+GAP,il+2*m,iw+2*m]);
   }
   const maxX=Math.max(...P.map(p=>p[1]+p[3])), maxY=Math.max(...P.map(p=>p[2]+p[4]));
-  const ov=document.createElement('div'); ov.style.cssText='position:fixed;inset:0;z-index:20;background:rgba(5,6,12,.85);display:grid;place-items:center;';
-  const wrap=document.createElement('div'); wrap.style.cssText='background:#11141f;border:1px solid rgba(120,140,200,.25);border-radius:16px;padding:18px;max-width:92vw;max-height:90vh;overflow:auto;box-shadow:0 20px 80px rgba(0,0,0,.6);';
-  const head=document.createElement('div'); head.style.cssText='display:flex;align-items:center;margin-bottom:10px;color:#e8ecf6;font-size:13px;';
-  head.innerHTML=`<b style="color:#6ee7ff">Unfolded net</b> &nbsp;·&nbsp; ${shape} &nbsp;·&nbsp; ${il}" × ${iw}" × ${id_}" interior &nbsp;·&nbsp; ${m}" material`;
-  const close=document.createElement('button'); close.textContent='✕'; close.style.cssText='margin-left:auto;background:none;border:none;color:#8a92ac;font-size:18px;cursor:pointer;';
+  const ov=document.createElement('div'); ov.style.cssText='position:fixed;inset:0;z-index:200;background:rgba(20,10,4,.88);display:grid;place-items:center;';
+  const wrap=document.createElement('div'); wrap.style.cssText='background:#2A1810;border:1px solid rgba(184,151,90,.3);border-radius:14px;padding:18px;max-width:92vw;max-height:90vh;overflow:auto;box-shadow:0 20px 80px rgba(0,0,0,.6);';
+  const head=document.createElement('div'); head.style.cssText='display:flex;align-items:center;margin-bottom:10px;color:#F7F2E9;font-size:13px;';
+  head.innerHTML=`<b style="color:#D4AE72">Unfolded net</b> &nbsp;·&nbsp; ${shape} &nbsp;·&nbsp; ${il}" × ${iw}" × ${id_}" interior &nbsp;·&nbsp; ${m}" material`;
+  const close=document.createElement('button'); close.textContent='✕'; close.style.cssText='margin-left:auto;background:none;border:none;color:rgba(247,242,233,.4);font-size:18px;cursor:pointer;';
   close.onclick=()=>ov.remove(); head.appendChild(close);
   const sc=Math.min(900/maxX, 560/maxY); const uc=document.createElement('canvas');
   uc.width=Math.ceil(maxX*sc+40); uc.height=Math.ceil(maxY*sc+40);
   const u=uc.getContext('2d'); const PADU=20;
-  const [n2,fw2]=[0,0];
   P.forEach(([lbl,px,py,pw,phh])=>{
     const X=PADU+px*sc, Y=PADU+py*sc, W=pw*sc, H=phh*sc;
     const isSide=lbl.startsWith('side')||lbl==='lid';
@@ -889,7 +1381,7 @@ function openUnfold(){
       for(let i=0;i<n;i++){const isTab=isSide?(i%2===0):(i%2===1); if(isTab)continue;
         u.fillRect(X,Y+i*fwpx,mpx,fwpx); u.fillRect(X+W-mpx,Y+i*fwpx,mpx,fwpx);}
     }
-    u.fillStyle='#1a1a1a'; u.font="11px 'Segoe UI'"; u.textAlign='center'; u.textBaseline='middle';
+    u.fillStyle='#1a1a1a'; u.font="11px 'Inter',sans-serif"; u.textAlign='center'; u.textBaseline='middle';
     u.fillText(lbl,(X+X+W)/2,(Y+Y+H)/2-7); u.fillText(`${pw.toFixed(1)}" × ${phh.toFixed(1)}"`,(X+X+W)/2,(Y+Y+H)/2+7);
   });
   wrap.appendChild(head); wrap.appendChild(uc); ov.appendChild(wrap);
